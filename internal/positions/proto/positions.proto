@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package positions;
+
+option go_package = "internal/positions/proto";
+
+import "google/protobuf/timestamp.proto";
+
+message SimResult {
+  uint64 scenarioId = 1;
+  Entry entry = 2;
+  Period period = 3;
+  uint64 mobilityProviderId = 4;
+}
+
+message Entry {
+  uint64 agent_id = 1;
+  uint32 capacity = 2;
+  uint32 load = 3;
+  repeated Position position = 4;
+  enum StateId {
+    Error = 0;
+    Waiting = 1;
+    WaitingForMission = 2;
+    WaitingForPassengers = 3;
+    AlightingPassengers = 4;
+    BoardingPassengers = 5;
+    DrivingOnNetwork = 6;
+  }
+  StateId stateId = 5;
+  repeated google.protobuf.Timestamp timestamps = 6; 
+}
+
+message Position {
+    float longitude = 1;
+    float latitude = 2;
+}
+
+message Period {
+  string start = 1;
+  string end = 2;
+}
+
+service PositionService {
+  rpc GetEntriesPositionsFromScenarioId (GetEntriesPositionsFromScenarioIdRequest) returns (stream GetEntriesPositionsFromScenarioIdResponse) {};
+}
+
+message GetEntriesPositionsFromScenarioIdRequest {
+  uint64 scenarioId = 1;
+}
+
+message GetEntriesPositionsFromScenarioIdResponse {
+  Entry entry = 1;
+}

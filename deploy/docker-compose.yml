@@ -1,21 +1,21 @@
 version: "3.8"
 services: 
-  geotwin-grpctest:
-    container_name: geotwin-grpctest
+playground-grpc:
+    container_name: playground-grpc
     build:
       args: 
-        WORK_DIR: /go/src/github.com/MydroX/geotwin-grpctest
+        WORK_DIR: /go/src/github.com/MydroX/playground-grpc
       context: ../
       dockerfile: ./deploy/Dockerfile
     ports:
       - 3000:3000
     volumes: 
-      - ../.:/go/src/github.com/MydroX/geotwin-grpctest
+      - ../.:/go/src/github.com/MydroX/playground-grpc
     networks: 
       - "geotwin-grpc"
 
-  geotwin-grpctest-db:
-    container_name: geotwin-grpctest-db
+  playground-grpc-db:
+    container_name: playground-grpc-db
     image: arangodb:3.6.16
     ports: 
       - "8529:8529"
